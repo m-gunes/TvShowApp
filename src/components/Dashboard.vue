@@ -24,7 +24,7 @@ onMounted(async () => {
     <TvShowCardSkeleton />
   </template>
 
-  <div v-else-if="error">{{error}}</div>
+  <h2 v-else-if="error">{{error}}</h2>
 
   <h2 v-else-if="noSearchResult">There is no result!</h2>
 

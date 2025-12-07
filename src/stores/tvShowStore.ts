@@ -15,15 +15,21 @@ export const useTvShowStore = defineStore('tvShows', () => {
   const error = ref<string | null>(null);
   const noSearchResult = ref<boolean>(false);
 
+
+  // helpers
+  const resetSearchState = () => {
+    searchResults.value = [];
+    noSearchResult.value = false;
+    error.value = null;
+  }
+
   // actions
   const searchTvShow = async (query: string) => {
 
     if (query.length < MIN_QUERY_LENGTH) {
-      searchResults.value = [];
-      noSearchResult.value = false;
+      resetSearchState()
       return;
     }
-
 
     loading.value = true;
 
