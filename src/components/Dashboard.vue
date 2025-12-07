@@ -9,7 +9,7 @@ import TvShowCardSkeleton from '@/components/TvShowCardSkeleton.vue'
 
 const tvShowsStore = useTvShowStore();
 const {LoadTvShows} = tvShowsStore;
-const { loading, error, noSearchResult, hasSearchResults, getGroupedTvShowByGenre, searchResults } = storeToRefs(tvShowsStore);
+const { loading, error, noSearchResult, hasSearchResults, groupedTvShows, searchResults } = storeToRefs(tvShowsStore);
 
 onMounted(async () => {
   await LoadTvShows();
@@ -30,7 +30,7 @@ onMounted(async () => {
 
   <HorizontalListRow
     v-else-if="!hasSearchResults"
-    v-for="(tvShowList, name) in getGroupedTvShowByGenre"
+    v-for="(tvShowList, name) in groupedTvShows"
     :key="name"
     :genre="name"
     :tvShowList="tvShowList"

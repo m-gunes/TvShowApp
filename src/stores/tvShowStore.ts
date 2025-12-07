@@ -1,20 +1,20 @@
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { TvShow } from '@/types/tvShowTypes.ts'
 import { fetchAllShows, searchShow } from '@/services/tvShowApi.ts'
+import { groupByGenre, sortByRating } from '@/utils/tvShowUtils.ts'
 
 const MIN_QUERY_LENGTH = 2;
+const ERROR_MESSAGE = "Something went wrong";
 
 export const useTvShowStore = defineStore('tvShows', () => {
-
   // state
-  const groupedTvShows = ref<Record<string,TvShow[]>>({});
+  const tvShows = ref<TvShow[]>([]);
   const searchResults = ref<TvShow[]>([]);
   const searchQuery = ref<string>("");
   const loading = ref<boolean>(false);
   const error = ref<string | null>(null);
   const noSearchResult = ref<boolean>(false);
-
 
   // helpers
   const resetSearchState = () => {
@@ -24,7 +24,7 @@ export const useTvShowStore = defineStore('tvShows', () => {
   }
 
   // actions
-  const searchTvShow = async (query: string) => {
+  async function searchTvShow(query: string) {
 
     if (query.length < MIN_QUERY_LENGTH) {
       resetSearchState()
@@ -41,64 +41,35 @@ export const useTvShowStore = defineStore('tvShows', () => {
       }
       else noSearchResult.value = true;
     } catch (err) {
-      error.value = err instanceof Error ? err.message : "Something went wrong";
+      error.value = err instanceof Error ? err.message : ERROR_MESSAGE;
     } finally {
       loading.value = false;
     }
   }
 
-  const groupByGenre = (tvShowList: TvShow[]) => {
-    const map: Record<string, TvShow[]> = {};
-    const uncategorized: TvShow[] = [];
-
-    tvShowList.forEach((show) => {
-      if (!show.genres || show.genres.length === 0) {
-        uncategorized.push(show);
-        return;
-      }
-
-      show.genres.forEach((genre) => {
-        if (!map[genre]) map[genre] = [];
-        map[genre].push(show);
-      });
-    });
-
-    if (uncategorized.length > 0)
-      map["Uncategorized"] = uncategorized;
-
-    return map;
-  }
-
-  const sortByRating = (map: Record<string, TvShow[]>) => {
-    const sortByRatingFunc = (a:TvShow, b:TvShow) => (b.rating.average ?? 0) - (a.rating.average ?? 0);
-    Object.keys(map).forEach((genre) => map[genre]?.sort(sortByRatingFunc));
-  }
-
   async function LoadTvShows() {
     try {
       loading.value = true;
-      const res = await fetchAllShows();
-      const map = groupByGenre(res);
-      sortByRating(map);
-      groupedTvShows.value = map;
+      tvShows.value = await fetchAllShows();
     } catch (err: unknown) {
-      error.value = err instanceof Error ? err.message : "Something went wrong";
+      error.value = err instanceof Error ? err.message : ERROR_MESSAGE;
     } finally {
       loading.value = false;
     }
   }
 
   // getters
-  const getGroupedTvShowByGenre = computed(() => groupedTvShows.value);
+  const groupedTvShows = computed(() => {
+    const map = groupByGenre(tvShows.value);
+    return sortByRating(map);
+  });
   const hasSearchResults = computed(() => searchResults.value.length > 0);
-
 
   return {
     LoadTvShows,
-    searchResults,
     searchTvShow,
     groupedTvShows,
-    getGroupedTvShowByGenre,
+    searchResults,
     hasSearchResults,
     searchQuery,
     noSearchResult,
@@ -106,14 +77,4 @@ export const useTvShowStore = defineStore('tvShows', () => {
     error,
   }
 })
-
-// export const useCounterStore = defineStore('counter', () => {
-//   const count = ref(0)
-//   const doubleCount = computed(() => count.value * 2)
-//   function increment() {
-//     count.value++
-//   }
-//
-//   return { count, doubleCount, increment }
-// })
 
