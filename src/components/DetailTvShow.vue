@@ -34,7 +34,12 @@ onMounted(async () => {
 
   <div class="tv-show-detail">
     <div class="tv-show-detail__img" >
-      <img :src="tvShow?.image?.original" :alt="tvShow?.name" />
+      <img
+        v-if="tvShow?.image?.original"
+        :src="tvShow?.image?.original"
+        :alt="tvShow?.name"
+      />
+      <div v-else class="tv-show-detail__img--no-img">No image</div>
     </div>
     <div class="tv-show-detail__info">
       <div class="tv-show-detail__info--name">{{ tvShow?.name }}</div>
@@ -45,7 +50,7 @@ onMounted(async () => {
       <div class="tv-show-detail__info--box">
         <div><strong>Status:</strong>{{tvShow?.status}}</div>
         <div><strong>Show Type:</strong>{{tvShow?.type}}</div>
-        <div><strong>Network:</strong> {{tvShow?.network?.name}}, {{tvShow?.network?.country.name}}</div>
+        <div><strong>Network:</strong> {{tvShow?.network?.name}} - {{tvShow?.network?.country.name}}</div>
         <div><strong>Official site:</strong>
           <a v-if="tvShow?.officialSite" target="_blank" :href="tvShow?.officialSite">Link</a>
           <span v-else>-</span>
@@ -80,6 +85,13 @@ onMounted(async () => {
   &__img {
     > img {
       max-width: 500px;
+    }
+    &--no-img {
+      width: 500px;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
   &__info {
@@ -116,6 +128,10 @@ onMounted(async () => {
       text-align: center;
       > img {
         width: 100%;
+      }
+      &--no-img {
+        width: 100%;
+        height: 100px;
       }
     }
     flex-direction: column;

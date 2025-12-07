@@ -15,7 +15,13 @@ const goToDetail = (id: number) =>
 
 <template>
   <div class="tv-show-card" @click="goToDetail(tvShow.id)">
-    <img :src="tvShow?.image?.medium" :alt="tvShow?.name" />
+    <img
+      v-if="tvShow?.image?.medium"
+      :src="tvShow?.image?.medium"
+      :alt="tvShow.name"
+    />
+    <div v-else class="tv-show-card__no-img">No image</div>
+
     <div class="tv-show-card-name">{{ tvShow.name }}</div>
     <div>Rating: {{ tvShow.rating.average }}</div>
     <div>{{ tvShow.genres.join(' | ') }}</div>
@@ -34,6 +40,13 @@ const goToDetail = (id: number) =>
   > img {
     width: 100%;
   }
+  &__no-img {
+    width: 100%;
+    height: 292px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 .tv-show-card-name {
   font-weight: bold;
@@ -42,6 +55,9 @@ const goToDetail = (id: number) =>
 @media (max-width: 767px){
   .tv-show-card {
     width: 166px;
+    &__no-img {
+      height: 208px;
+    }
     > div {
       text-wrap: auto;
     }
