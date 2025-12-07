@@ -18,11 +18,11 @@ const goToDetail = (id: number) =>
     <img :src="tvShow?.image?.medium" :alt="tvShow?.name" />
     <div class="tv-show-card-name">{{ tvShow.name }}</div>
     <div>Rating: {{ tvShow.rating.average }}</div>
-    <div>{{ tvShow.genres.join(', ') }}</div>
+    <div>{{ tvShow.genres.join(' | ') }}</div>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 
 .tv-show-card {
   width: 226px; /* img -> 210px + padding -> 16px */
@@ -31,8 +31,21 @@ const goToDetail = (id: number) =>
   border-radius: 4px;
   padding: 8px;
   cursor: pointer;
+  > img {
+    width: 100%;
+  }
 }
 .tv-show-card-name {
   font-weight: bold;
 }
+
+@media (max-width: 767px){
+  .tv-show-card {
+    width: 166px;
+    > div {
+      text-wrap: auto;
+    }
+  }
+}
+
 </style>

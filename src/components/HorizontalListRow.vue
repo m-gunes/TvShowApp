@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { computed, defineProps } from 'vue';
 import type { TvShow } from '@/types/tvShowTypes';
-import { useVirtualList } from '@vueuse/core';
+import { useVirtualList, useWindowSize } from '@vueuse/core';
 import TvShowCard from '@/components/TvShowCard.vue'
 
-const CARD_WIDTH = 226;
+const { width } = useWindowSize()
+
+const CARD_WIDTH = computed(() => width.value < 768 ? 166 : 226);
 
 const props = defineProps<{
   genre: string;
@@ -13,7 +15,7 @@ const props = defineProps<{
 
 const { list, containerProps, wrapperProps } = useVirtualList(
   props.tvShowList,
-  { itemWidth: CARD_WIDTH, overscan: 3 }
+  { itemWidth: CARD_WIDTH.value }
 );
 </script>
 
@@ -28,19 +30,27 @@ const { list, containerProps, wrapperProps } = useVirtualList(
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .horizontal-list-row {
   margin-bottom: 16px;
+  &__content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 420px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+    padding-bottom: 8px;
+  }
 }
-.horizontal-list-row__content {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 420px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-behavior: smooth;
-  white-space: nowrap;
-  padding-bottom: 8px;
+
+@media (max-width: 767px){
+  .horizontal-list-row {
+    &__content {
+      height: 380px;
+    }
+  }
 }
 </style>
