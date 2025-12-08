@@ -53,6 +53,11 @@ npm run test:unit
 npm run lint
 ```
 
+### Runtime Requirements
+This project was developed and tested with:
+- **Node.js:** 23.9.0
+- **npm:** 11.6.2
+
 # Store Design Approach
 The store keeps only the raw TV show data from the API. All grouping and sorting logic is handled through computed getters using pure helper functions.
 This design choice ensures:
