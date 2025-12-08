@@ -36,12 +36,13 @@ const { list, containerProps, wrapperProps } = useVirtualList(props.tvShowList, 
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 420px;
+    height: 450px;
     overflow-x: auto;
     overflow-y: hidden;
     scroll-behavior: smooth;
     white-space: nowrap;
-    padding-bottom: 8px;
+    padding: 8px;
+    padding-bottom: 12px;
   }
 }
 

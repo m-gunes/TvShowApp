@@ -44,6 +44,8 @@ This design choice ensures:
 - Easier testing of pure transformation logic
 - And long-term scalability, allowing additional views and filters to be added without changing the core state
 
+In addition, the same `tvShows` dataset is also reused by the **Detail Page** through a cache-first strategy. When navigating to a detail view, the store is checked first before making a new API request. If the show already exists in the store, it is displayed instantly. This avoids unnecessary network requests and improves overall performance.
+
 
 ### Why tvShows and searchResults Are Separate States
 
@@ -54,7 +56,7 @@ If I did, clearing or resetting the search input would require:
 - Re-fetching the full TV show list from the API
 - Re-applying the grouping and sorting logic again
 
-By keeping searchResults as a separate state, the main dateset (`tvShows`) remains stable, the search flow stays isolated, and I avoid unnecessary network requests and recomputation. This keeps both the dashboard and the search behavior predictable and efficient.
+By keeping `searchResults` as a separate state, the main dateset (`tvShows`) remains stable, the search flow stays isolated, and I avoid unnecessary network requests and recomputation. This keeps both the dashboard, the search behavior, and the detail page caching predictable and efficient.
 
 
 ### Search API Result Mapping
@@ -89,6 +91,13 @@ To avoid rendering all items unnecessarily, **list virtualization** is implement
 - Significantly reduces the number of DOM nodes,
 - Improves rendering performance,
 - And keeps horizontal scrolling smooth even with large datasets.
+
+
+Additionally, **to speed up the initial page load**, images that are not immediately visible on the screen are loaded using **native lazy loading**:
+```html
+<img loading="lazy" />
+```
+This prevents unnecessary image downloads, reduces bandwidth usage, and improves perceived performance, especially on slower connections.
 
 
 ### 2. Debounced Search Input

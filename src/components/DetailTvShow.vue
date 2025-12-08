@@ -3,14 +3,17 @@ import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import type { TvShow } from '@/types/tvShowTypes.ts'
 import { fetchShowById } from '@/services/tvShowApi.ts'
-import { useDateFormat } from '@/components/composables/useDateFormat.ts'
+import { useDateFormat } from '@/composables/useDateFormat.ts'
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue'
+import { useTvShowStore} from '@/stores/tvShowStore.ts'
+
+const store = useTvShowStore();
 
 const route = useRoute()
 const router = useRouter()
 
 const tvShow = ref<TvShow | null>(null)
-const loading = ref(true)
+const loading = ref(false)
 const error = ref<string | null>(null)
 
 const { formatDate } = useDateFormat()
@@ -26,6 +29,13 @@ const loadTvShowById = async () => {
   if (Number.isNaN(id)) {
     error.value = 'Invalid show id'
     return
+  }
+
+  // check state first
+  const tvShowFromState = store.getTvShowById(id);
+  if (tvShowFromState) {
+    tvShow.value = tvShowFromState
+    return;
   }
 
   try {

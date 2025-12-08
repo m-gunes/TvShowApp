@@ -13,10 +13,10 @@ const goToDetail = (id: number) => router.push({ name: 'detail', params: { id } 
 
 <template>
   <div class="tv-show-card" @click="goToDetail(tvShow.id)">
-    <img v-if="tvShow?.image?.medium" :src="tvShow?.image?.medium" :alt="tvShow.name" />
+    <img v-if="tvShow?.image?.medium" loading="lazy" :src="tvShow?.image?.medium" :alt="tvShow.name" />
     <div v-else class="tv-show-card__no-img">No image</div>
 
-    <div class="tv-show-card-name">{{ tvShow.name }}</div>
+    <div class="tv-show-card__name">{{ tvShow.name }}</div>
     <div>Rating: {{ tvShow.rating.average }}</div>
     <div>{{ tvShow.genres.join(' | ') }}</div>
   </div>
@@ -30,8 +30,18 @@ const goToDetail = (id: number) => router.push({ name: 'detail', params: { id } 
   border-radius: 4px;
   padding: 8px;
   cursor: pointer;
+  text-wrap: auto;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   > img {
     width: 100%;
+  }
+  &__name {
+    font-weight: bold;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   &__no-img {
     width: 100%;
@@ -40,9 +50,10 @@ const goToDetail = (id: number) => router.push({ name: 'detail', params: { id } 
     align-items: center;
     justify-content: center;
   }
-}
-.tv-show-card-name {
-  font-weight: bold;
+  &:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
 }
 
 @media (max-width: 767px) {
