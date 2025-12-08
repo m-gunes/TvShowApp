@@ -108,3 +108,16 @@ This ensures that search requests are only sent after the user pauses typing, wh
 - Reduces unnecessary network traffic,
 - Improves responsiveness,
 - And provides a better overall user experience.
+
+
+# Accessibility
+
+TV show cards are implemented using semantic `<RouterLink>` elements instead of clickable `<div>`s.
+This ensures full keyboard accessibility using `Tab` and `Enter`, improves screen reader support,
+and aligns with WCAG guidelines such as:
+
+- WCAG 2.1.1 – Keyboard Accessibility
+- WCAG 2.4.7 – Focus Visible
+- WCAG 1.1.1 – Non-text Content
+
+Custom `:focus-visible` styles are added to clearly indicate the active element during keyboard navigation.

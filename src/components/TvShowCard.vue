@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
 import type { TvShow } from '@/types/tvShowTypes.ts'
-
-const router = useRouter()
 
 defineProps<{
   tvShow: TvShow
 }>()
 
-const goToDetail = (id: number) => router.push({ name: 'detail', params: { id } })
 </script>
 
 <template>
-  <div class="tv-show-card" @click="goToDetail(tvShow.id)">
+  <RouterLink
+    class="tv-show-card"
+    :to="{ name: 'detail', params: { id: tvShow.id } }"
+  >
     <img v-if="tvShow?.image?.medium" loading="lazy" :src="tvShow?.image?.medium" :alt="tvShow.name" />
+
     <div v-else class="tv-show-card__no-img">No image</div>
 
     <div class="tv-show-card__name">{{ tvShow.name }}</div>
     <div>Rating: {{ tvShow.rating.average }}</div>
     <div>{{ tvShow.genres.join(' | ') }}</div>
-  </div>
+  </RouterLink>
 </template>
 
 <style scoped lang="scss">
@@ -53,6 +53,10 @@ const goToDetail = (id: number) => router.push({ name: 'detail', params: { id } 
   &:hover {
     transform: scale(1.03);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+  &:focus-visible {
+    outline: 2px solid #1976d2;
+    outline-offset: 2px;
   }
 }
 
