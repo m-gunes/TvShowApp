@@ -62,7 +62,7 @@ export const useTvShowStore = defineStore('tvShows', () => {
     return sortByRating(map)
   })
   const hasSearchResults = computed(() => searchResults.value.length > 0)
-  const getTvShowById = (id: number) => tvShows.value.find(s => s.id === id);
+  const getTvShowById = (id: number) => tvShows.value.find((s) => s.id === id)
 
   return {
     loadTvShows,

@@ -4,15 +4,16 @@ import type { TvShow } from '@/types/tvShowTypes.ts'
 defineProps<{
   tvShow: TvShow
 }>()
-
 </script>
 
 <template>
-  <RouterLink
-    class="tv-show-card"
-    :to="{ name: 'detail', params: { id: tvShow.id } }"
-  >
-    <img v-if="tvShow?.image?.medium" loading="lazy" :src="tvShow?.image?.medium" :alt="tvShow.name" />
+  <RouterLink class="tv-show-card" :to="{ name: 'detail', params: { id: tvShow.id } }">
+    <img
+      v-if="tvShow?.image?.medium"
+      loading="lazy"
+      :src="tvShow?.image?.medium"
+      :alt="tvShow.name"
+    />
 
     <div v-else class="tv-show-card__no-img">No image</div>
 
@@ -31,7 +32,9 @@ defineProps<{
   padding: 8px;
   cursor: pointer;
   text-wrap: auto;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   > img {
     width: 100%;
   }

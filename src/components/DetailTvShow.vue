@@ -5,9 +5,9 @@ import type { TvShow } from '@/types/tvShowTypes.ts'
 import { fetchShowById } from '@/services/tvShowApi.ts'
 import { useDateFormat } from '@/composables/useDateFormat.ts'
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue'
-import { useTvShowStore} from '@/stores/tvShowStore.ts'
+import { useTvShowStore } from '@/stores/tvShowStore.ts'
 
-const store = useTvShowStore();
+const store = useTvShowStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -32,10 +32,10 @@ const loadTvShowById = async () => {
   }
 
   // check state first
-  const tvShowFromState = store.getTvShowById(id);
+  const tvShowFromState = store.getTvShowById(id)
   if (tvShowFromState) {
     tvShow.value = tvShowFromState
-    return;
+    return
   }
 
   try {
