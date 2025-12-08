@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Dashboard from '@/components/Dashboard.vue'
+import TvShowDashboard from '@/components/TvShowDashboard.vue'
 </script>
 
 <template>
@@ -11,7 +11,7 @@ import Dashboard from '@/components/Dashboard.vue'
         <span>{{ ' ' }}Show Explorer</span>
       </h2>
     </header>
-    <Dashboard />
+    <TvShowDashboard />
   </main>
 </template>
 
