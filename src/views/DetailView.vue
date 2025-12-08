@@ -3,7 +3,7 @@ import DetailTvShow from '@/components/DetailTvShow.vue'
 </script>
 
 <template>
-  <DetailTvShow/>
+  <DetailTvShow />
 </template>
 
 <style scoped></style>

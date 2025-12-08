@@ -2,24 +2,18 @@
 import { useRouter } from 'vue-router'
 import type { TvShow } from '@/types/tvShowTypes.ts'
 
-const router = useRouter();
+const router = useRouter()
 
 defineProps<{
   tvShow: TvShow
-}>();
+}>()
 
-const goToDetail = (id: number) =>
-  router.push({ name: 'detail', params: { id } })
-
+const goToDetail = (id: number) => router.push({ name: 'detail', params: { id } })
 </script>
 
 <template>
   <div class="tv-show-card" @click="goToDetail(tvShow.id)">
-    <img
-      v-if="tvShow?.image?.medium"
-      :src="tvShow?.image?.medium"
-      :alt="tvShow.name"
-    />
+    <img v-if="tvShow?.image?.medium" :src="tvShow?.image?.medium" :alt="tvShow.name" />
     <div v-else class="tv-show-card__no-img">No image</div>
 
     <div class="tv-show-card-name">{{ tvShow.name }}</div>
@@ -29,7 +23,6 @@ const goToDetail = (id: number) =>
 </template>
 
 <style scoped lang="scss">
-
 .tv-show-card {
   width: 226px; /* img -> 210px + padding -> 16px */
   margin: 0 12px 12px 0;
@@ -52,7 +45,7 @@ const goToDetail = (id: number) =>
   font-weight: bold;
 }
 
-@media (max-width: 767px){
+@media (max-width: 767px) {
   .tv-show-card {
     width: 166px;
     &__no-img {
@@ -63,5 +56,4 @@ const goToDetail = (id: number) =>
     }
   }
 }
-
 </style>

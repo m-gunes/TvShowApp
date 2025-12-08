@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="skeleton-container">
@@ -55,7 +53,6 @@
   width: 40%;
 }
 
-
 @keyframes pulse-bg {
   0% {
     background-color: #404040;
@@ -67,6 +64,4 @@
     background-color: #404040;
   }
 }
-
-
 </style>

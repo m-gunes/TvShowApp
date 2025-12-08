@@ -1,30 +1,35 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { watchDebounced } from '@vueuse/core';
+import { storeToRefs } from 'pinia'
+import { watchDebounced } from '@vueuse/core'
 import { useTvShowStore } from '@/stores/tvShowStore.ts'
 import IconClose from '@/components/icons/IconClose.vue'
 import IconMagnify from '@/components/icons/IconMagnify.vue'
 
-const store = useTvShowStore();
+const store = useTvShowStore()
 const { searchQuery } = storeToRefs(store)
 const { searchTvShow } = store
 
-watchDebounced(searchQuery, async (value) => {
-  await searchTvShow(value);
-}, { debounce: 500 });
-
+watchDebounced(
+  searchQuery,
+  async (value) => {
+    await searchTvShow(value)
+  },
+  { debounce: 500 },
+)
 </script>
 
 <template>
   <div class="input-container">
     <div class="input-wrapper">
       <IconMagnify class="icon search-icon" />
-      <input name="search" v-model.trim="searchQuery" type="text" placeholder="Search Tv Show" class="search-input" >
-      <IconClose
-        v-if="searchQuery"
-        class="icon clear-icon"
-        @click="searchQuery = ''"
+      <input
+        name="search"
+        v-model.trim="searchQuery"
+        type="text"
+        placeholder="Search Tv Show"
+        class="search-input"
       />
+      <IconClose v-if="searchQuery" class="icon clear-icon" @click="searchQuery = ''" />
     </div>
   </div>
 </template>
@@ -57,7 +62,7 @@ watchDebounced(searchQuery, async (value) => {
 }
 
 .search-icon {
-  left: 5px
+  left: 5px;
 }
 
 .clear-icon {

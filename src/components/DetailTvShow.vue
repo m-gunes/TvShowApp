@@ -6,25 +6,40 @@ import { fetchShowById } from '@/services/tvShowApi.ts'
 import { useDateFormat } from '@/components/composables/useDateFormat.ts'
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue'
 
-const route = useRoute();
-const router = useRouter();
+const route = useRoute()
+const router = useRouter()
 
-const tvShow = ref<TvShow>()
-const { formatDate } = useDateFormat();
+const tvShow = ref<TvShow | null>(null)
+const loading = ref(true)
+const error = ref<string | null>(null)
+
+const { formatDate } = useDateFormat()
 
 const goBack = () => {
-  if (window.history.length > 1)
-    router.back()
-  else
-    router.push({ name: 'home' })
+  if (window.history.length > 1) router.back()
+  else router.push({ name: 'home' })
 }
 
-
-onMounted(async () => {
+const loadTvShowById = async () => {
   const id = Number(route.params.id)
-  tvShow.value = await fetchShowById(id)
-})
 
+  if (Number.isNaN(id)) {
+    error.value = 'Invalid show id'
+    return
+  }
+
+  try {
+    loading.value = true
+    error.value = null
+    tvShow.value = await fetchShowById(id)
+  } catch (e) {
+    error.value = e instanceof Error ? e.message : 'Failed to load TV show!'
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(loadTvShowById)
 </script>
 
 <template>
@@ -32,39 +47,43 @@ onMounted(async () => {
     <IconArrowLeft class="back-icon" /> <strong>Back</strong>
   </button>
 
-  <div class="tv-show-detail">
-    <div class="tv-show-detail__img" >
-      <img
-        v-if="tvShow?.image?.original"
-        :src="tvShow?.image?.original"
-        :alt="tvShow?.name"
-      />
+  <div v-if="loading">Loading...</div>
+  <div v-else-if="error">{{ error }}</div>
+
+  <div v-else class="tv-show-detail">
+    <div class="tv-show-detail__img">
+      <img v-if="tvShow?.image?.original" :src="tvShow?.image?.original" :alt="tvShow?.name" />
       <div v-else class="tv-show-detail__img--no-img">No image</div>
     </div>
     <div class="tv-show-detail__info">
       <div class="tv-show-detail__info--name">{{ tvShow?.name }}</div>
-      <div>Rating: <strong>{{ tvShow?.rating.average }}</strong></div>
+      <div>
+        Rating: <strong>{{ tvShow?.rating.average }}</strong>
+      </div>
       <div>{{ tvShow?.genres.join(' | ') }}</div>
       <p class="tv-show-detail__info--summary" v-html="tvShow?.summary"></p>
 
       <div class="tv-show-detail__info--box">
-        <div><strong>Status:</strong>{{tvShow?.status}}</div>
-        <div><strong>Show Type:</strong>{{tvShow?.type}}</div>
-        <div><strong>Network:</strong> {{tvShow?.network?.name}} - {{tvShow?.network?.country.name}}</div>
-        <div><strong>Official site:</strong>
+        <div><strong>Status:</strong>{{ tvShow?.status }}</div>
+        <div><strong>Show Type:</strong>{{ tvShow?.type }}</div>
+        <div>
+          <strong>Network:</strong> {{ tvShow?.network?.name }} -
+          {{ tvShow?.network?.country.name }}
+        </div>
+        <div>
+          <strong>Official site:</strong>
           <a v-if="tvShow?.officialSite" target="_blank" :href="tvShow?.officialSite">Link</a>
           <span v-else>-</span>
         </div>
-        <div><strong>Language:</strong> {{tvShow?.language}}</div>
-        <div><strong>Premiered:</strong> {{formatDate(tvShow?.premiered)}}</div>
-        <div><strong>End Date:</strong> {{formatDate(tvShow?.ended)}}</div>
+        <div><strong>Language:</strong> {{ tvShow?.language }}</div>
+        <div><strong>Premiered:</strong> {{ formatDate(tvShow?.premiered) }}</div>
+        <div><strong>End Date:</strong> {{ formatDate(tvShow?.ended) }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-
 .back-button {
   display: flex;
   align-items: center;
@@ -140,5 +159,4 @@ onMounted(async () => {
     }
   }
 }
-
 </style>

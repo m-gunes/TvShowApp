@@ -8,7 +8,7 @@ import Dashboard from '@/components/Dashboard.vue'
       <h2 class="logo">
         <span>T</span>
         <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="20" height="20" />
-        <span>{{' '}}Show Explorer</span>
+        <span>{{ ' ' }}Show Explorer</span>
       </h2>
     </header>
     <Dashboard />
