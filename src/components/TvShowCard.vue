@@ -18,7 +18,7 @@ defineProps<{
     <div v-else class="tv-show-card__no-img">No image</div>
 
     <div class="tv-show-card__name">{{ tvShow.name }}</div>
-    <div>Rating: {{ tvShow.rating.average }}</div>
+    <div>Rating: <strong>{{ tvShow.rating.average }}</strong></div>
     <div>{{ tvShow.genres.join(' | ') }}</div>
   </RouterLink>
 </template>
@@ -32,6 +32,7 @@ defineProps<{
   padding: 8px;
   cursor: pointer;
   text-wrap: auto;
+  color: var(--color-text);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
