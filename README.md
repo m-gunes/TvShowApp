@@ -42,7 +42,7 @@ This design choice ensures:
 - A strict single source of truth
 - Clear separation of responsibilities between data fetching, transformation, and presentation
 - Easier testing of pure transformation logic
-- And long-term scalability, allowing additional views and filters to be added without changing the core state
+- Long-term scalability, allowing additional views and filters to be added without changing the core state
 
 In addition, the same `tvShows` dataset is also reused by the **Detail Page** through a cache-first strategy. When navigating to a detail view, the store is checked first before making a new API request. If the show already exists in the store, it is displayed instantly. This avoids unnecessary network requests and improves overall performance.
 
@@ -90,7 +90,7 @@ To avoid rendering all items unnecessarily, **list virtualization** is implement
 **Only the visible TV shows** (plus a small buffer) are rendered in the DOM, which:
 - Significantly reduces the number of DOM nodes,
 - Improves rendering performance,
-- And keeps horizontal scrolling smooth even with large datasets.
+- Keeps horizontal scrolling smooth even with large datasets.
 
 
 Additionally, **to speed up the initial page load**, images that are not immediately visible on the screen are loaded using **native lazy loading**:
@@ -107,7 +107,7 @@ The search input is debounced using `watchDebounced` to prevent triggering an AP
 This ensures that search requests are only sent after the user pauses typing, which:
 - Reduces unnecessary network traffic,
 - Improves responsiveness,
-- And provides a better overall user experience.
+- Provides a better overall user experience.
 
 
 # Accessibility

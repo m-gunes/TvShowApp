@@ -3,7 +3,6 @@ import { mount, RouterLinkStub } from '@vue/test-utils'
 import TvShowCard from '@/components/TvShowCard.vue'
 import { createTvShow } from '@/testUtil/createTvShow.ts'
 
-
 describe('TvShowCard', () => {
   it('renders show name, rating and genres', () => {
     const tvShow = createTvShow({
