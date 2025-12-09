@@ -5,7 +5,7 @@ import TvShowCard from '@/components/TvShowCard.vue'
 import { onMounted } from 'vue'
 import { useTvShowStore } from '@/stores/tvShowStore.ts'
 import SearchTvShow from '@/components/SearchTvShow.vue'
-import TvShowCardSkeleton from '@/components/TvShowCardSkeleton.vue'
+import SkeletonLoader from '@/components/SkeletonLoader.vue'
 
 const tvShowsStore = useTvShowStore()
 const { loadTvShows } = tvShowsStore
@@ -20,12 +20,8 @@ onMounted(async () => {
 <template>
   <SearchTvShow />
 
-  <template v-if="loading">
-    <TvShowCardSkeleton />
-  </template>
-
+  <SkeletonLoader v-if="loading" isDashboard />
   <h2 v-else-if="error">{{ error }}</h2>
-
   <h2 v-else-if="noSearchResult">There is no result!</h2>
 
   <HorizontalListRow

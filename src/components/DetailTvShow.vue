@@ -6,6 +6,7 @@ import { fetchShowById } from '@/services/tvShowApi.ts'
 import { useDateFormat } from '@/composables/useDateFormat.ts'
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue'
 import { useTvShowStore } from '@/stores/tvShowStore.ts'
+import SkeletonLoader from '@/components/SkeletonLoader.vue'
 
 const store = useTvShowStore()
 
@@ -57,7 +58,7 @@ onMounted(loadTvShowById)
     <IconArrowLeft class="back-icon" /> <strong>Back</strong>
   </button>
 
-  <div v-if="loading">Loading...</div>
+  <SkeletonLoader v-if="loading" />
   <div v-else-if="error">{{ error }}</div>
 
   <div v-else class="tv-show-detail">
