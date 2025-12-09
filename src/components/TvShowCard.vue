@@ -18,7 +18,9 @@ defineProps<{
     <div v-else class="tv-show-card__no-img">No image</div>
 
     <div class="tv-show-card__name">{{ tvShow.name }}</div>
-    <div>Rating: <strong>{{ tvShow.rating.average }}</strong></div>
+    <div>
+      Rating: <strong>{{ tvShow.rating.average }}</strong>
+    </div>
     <div>{{ tvShow.genres.join(' | ') }}</div>
   </RouterLink>
 </template>

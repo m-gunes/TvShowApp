@@ -11,8 +11,8 @@ const { searchTvShow } = store
 
 watchDebounced(
   searchQuery,
-  async (value) => {
-    await searchTvShow(value)
+  async () => {
+    await searchTvShow()
   },
   { debounce: 500 },
 )

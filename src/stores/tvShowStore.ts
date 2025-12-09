@@ -16,28 +16,23 @@ export const useTvShowStore = defineStore('tvShows', () => {
   const error = ref<string | null>(null)
   const noSearchResult = ref<boolean>(false)
 
-  // helpers
-  const resetSearchState = () => {
-    searchResults.value = []
-    noSearchResult.value = false
-    error.value = null
-  }
-
   // actions
-  async function searchTvShow(query: string) {
-    if (query.length < MIN_QUERY_LENGTH) {
-      resetSearchState()
+  async function searchTvShow() {
+    if (searchQuery.value.length < MIN_QUERY_LENGTH) {
+      searchResults.value = []
+      noSearchResult.value = false
+      error.value = null
       return
     }
 
     loading.value = true
+    error.value = null
+    noSearchResult.value = false
 
     try {
-      const res = await searchShow(query)
-      if (res.length > 0) {
-        searchResults.value = res
-        noSearchResult.value = false
-      } else noSearchResult.value = true
+      const res = await searchShow(searchQuery.value)
+      searchResults.value = res
+      noSearchResult.value = res.length === 0
     } catch (err) {
       error.value = err instanceof Error ? err.message : ERROR_MESSAGE
     } finally {
@@ -48,6 +43,7 @@ export const useTvShowStore = defineStore('tvShows', () => {
   async function loadTvShows() {
     try {
       loading.value = true
+      error.value = null
       tvShows.value = await fetchShows()
     } catch (err: unknown) {
       error.value = err instanceof Error ? err.message : ERROR_MESSAGE
@@ -61,7 +57,9 @@ export const useTvShowStore = defineStore('tvShows', () => {
     const map = groupByGenre(tvShows.value)
     return sortByRating(map)
   })
+
   const hasSearchResults = computed(() => searchResults.value.length > 0)
+
   const getTvShowById = (id: number) => tvShows.value.find((s) => s.id === id)
 
   return {
