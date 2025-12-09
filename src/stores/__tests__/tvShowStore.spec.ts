@@ -23,7 +23,7 @@ describe('tvShowStore actions', () => {
 
   it('loadTvShows success -> loads shows and clears error', async () => {
     const store = useTvShowStore()
-    const shows = [createTvShow({ id: 1 }), createTvShow({ id: 2})]
+    const shows = [createTvShow({ id: 1 }), createTvShow({ id: 2 })]
     mockFetchShows.mockResolvedValueOnce(shows)
 
     await store.loadTvShows()

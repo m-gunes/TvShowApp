@@ -1,9 +1,7 @@
 <script setup lang="ts">
-
 defineProps<{
-  isDashboard?: boolean;
+  isDashboard?: boolean
 }>()
-
 </script>
 
 <template>
