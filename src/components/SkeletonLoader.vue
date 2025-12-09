@@ -79,4 +79,15 @@ defineProps<{
     background-color: #404040;
   }
 }
+
+@media (max-width: 767px) {
+  .skeleton {
+    &__card {
+      width: 166px;
+      &--img {
+        height: 240px;
+      }
+    }
+  }
+}
 </style>
