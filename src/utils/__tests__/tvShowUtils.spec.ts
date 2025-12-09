@@ -1,22 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { groupByGenre, sortByRating } from '@/utils/tvShowUtils'
-import type { TvShow } from '@/types/tvShowTypes'
-
-const createTvShowMockData = (partial: Partial<TvShow>): TvShow => ({
-  id: partial.id ?? 0,
-  name: partial.name ?? 'Test Show',
-  genres: partial.genres ?? [],
-  rating: partial.rating ?? { average: null },
-  image: partial.image ?? { medium: '', original: '' },
-  summary: partial.summary ?? '',
-  status: partial.status ?? 'Running',
-  type: partial.type ?? 'Scripted',
-  network: partial.network ?? null,
-  officialSite: partial.officialSite ?? null,
-  language: partial.language ?? 'English',
-  premiered: partial.premiered ?? null,
-  ended: partial.ended ?? null,
-})
+import { createTvShow } from '@/testUtil/createTvShow.ts'
 
 const DRAMA = 'Drama'
 const CRIME = 'Crime'
@@ -31,9 +15,9 @@ describe('tvShowUtils', () => {
 
     it('groups shows by genre and collects empty-genre shows under "Uncategorized"', () => {
       const tvShows = [
-        createTvShowMockData({ id: 1, name: 'Tv show 1', genres: [DRAMA] }),
-        createTvShowMockData({ id: 2, name: 'Tv show 2', genres: [DRAMA, CRIME] }),
-        createTvShowMockData({ id: 3, name: 'Tv show 3', genres: [] }),
+        createTvShow({ id: 1, name: 'Tv show 1', genres: [DRAMA] }),
+        createTvShow({ id: 2, name: 'Tv show 2', genres: [DRAMA, CRIME] }),
+        createTvShow({ id: 3, name: 'Tv show 3', genres: [] }),
       ]
 
       const result = groupByGenre(tvShows)
@@ -56,9 +40,9 @@ describe('tvShowUtils', () => {
 
     it('adds "Uncategorized" as the last key when present', () => {
       const tvShows = [
-        createTvShowMockData({ id: 1, name: 'Tv show 1', genres: [] }),
-        createTvShowMockData({ id: 2, name: 'Tv show 2', genres: [DRAMA] }),
-        createTvShowMockData({ id: 3, name: 'Tv show 3', genres: [DRAMA, CRIME] }),
+        createTvShow({ id: 1, name: 'Tv show 1', genres: [] }),
+        createTvShow({ id: 2, name: 'Tv show 2', genres: [DRAMA] }),
+        createTvShow({ id: 3, name: 'Tv show 3', genres: [DRAMA, CRIME] }),
       ]
 
       const result = groupByGenre(tvShows)
@@ -73,9 +57,9 @@ describe('tvShowUtils', () => {
     it('sorts shows within each genre by rating in descending order', () => {
       const groupedByGenre = {
         [DRAMA]: [
-          createTvShowMockData({ id: 1, rating: { average: 5.5 } }),
-          createTvShowMockData({ id: 2, rating: { average: 9.1 } }),
-          createTvShowMockData({ id: 3, rating: { average: 7.3 } }),
+          createTvShow({ id: 1, rating: { average: 5.5 } }),
+          createTvShow({ id: 2, rating: { average: 9.1 } }),
+          createTvShow({ id: 3, rating: { average: 7.3 } }),
         ],
       }
 
