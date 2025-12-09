@@ -35,6 +35,9 @@ This project was developed and tested with:
 - **Node.js:** 23.9.0
 - **npm:** 11.6.2
 
+# Why I Use State Management (Pinia) 
+I use state management to maintain a single source of truth for TV show data, enabling shared state across pages and components, easier maintainability, cache-first detail views, predictable search behavior, and cleaner UI components. I chose Pinia because it works naturally with Vue 3, keeps the state layer simple and predictable, and makes the overall structure easier to scale and test as the application grows.
+
 # Store Design Approach
 The store keeps only the raw TV show data from the API. All grouping and sorting logic is handled through computed getters using pure helper functions.
 This design choice ensures:
