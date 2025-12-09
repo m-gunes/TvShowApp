@@ -95,7 +95,7 @@ To avoid rendering all items unnecessarily, **list virtualization** is implement
 
 Additionally, **to speed up the initial page load**, images that are not immediately visible on the screen are loaded using **native lazy loading**:
 ```html
-<img loading="lazy" />
+<img loading="lazy" alt="" />
 ```
 This prevents unnecessary image downloads, reduces bandwidth usage, and improves perceived performance, especially on slower connections.
 
